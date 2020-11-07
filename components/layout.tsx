@@ -1,6 +1,7 @@
 import Alert from './alert'
 import Footer from './footer'
 import Meta from './meta'
+import Covid from './Covid/CovidTracker'
 
 type Props = {
   preview?: boolean
@@ -13,6 +14,7 @@ const Layout = ({children }: Props) => {
       <Meta />
       <div className="min-h-screen">
         <Alert />
+        <Covid />
         <main>{children}</main>
       </div>
       <Footer />
