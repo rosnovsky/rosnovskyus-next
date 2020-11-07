@@ -19,6 +19,24 @@ const Index = ({ allPosts }: Props) => {
       <Layout>
         <Head>
           <title>Rosnovsky Park</title>
+          <link
+            rel="preload"
+            href="https://api.covidtracking.com/v1/us/current.json"
+            as="fetch"
+            crossOrigin="anonymous"
+          />
+          <link
+            rel="preload"
+            href="https://vitals.vercel-analytics.com"
+            as="fetch"
+            crossOrigin="anonymous"
+          />
+          <link
+            rel="preload"
+            href="https://cdn.usefathom.com"
+            as="fetch"
+            crossOrigin="anonymous"
+          />
         </Head>
         <Container>
           <Intro />
