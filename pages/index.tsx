@@ -25,18 +25,6 @@ const Index = ({ allPosts }: Props) => {
             as="fetch"
             crossOrigin="anonymous"
           />
-          <link
-            rel="preload"
-            href="https://vitals.vercel-analytics.com"
-            as="fetch"
-            crossOrigin="anonymous"
-          />
-          <link
-            rel="preload"
-            href="https://cdn.usefathom.com"
-            as="fetch"
-            crossOrigin="anonymous"
-          />
         </Head>
         <Container>
           <Intro />
