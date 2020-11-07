@@ -16,7 +16,7 @@ For years, I've been rebuilding this website to learn new things and to have a n
 
 My primary goal is to learn new tech and build a nice site. Over the years, I've collected an endless list of things I want to implement on my personal site, but for the longest time I tried to find an existing product I can use and that meets my requirements.
 
-Unfortunately, building on top of my existing blog is not really viable (or flexible enough). At this moment, my main site runs on Ghost hosted on Digital Ocean. Even though Ghost has a nice CMS interface and somewhat works with static frontends, It's not flexible enough for what I want to do. As a result, I'm doing a full rebuild, from scratch.
+Unfortunately, building on top of my existing blog is not really viable (or flexible enough). At this moment, my main site runs on Ghost hosted on [Digital Ocean](https://m.do.co/c/4c9e726c78a9). Even though Ghost has a nice CMS interface and somewhat works with static frontends, It's not flexible enough for what I want to do. As a result, I'm doing a full rebuild, from scratch.
 
 ## Why Share
 
@@ -26,11 +26,11 @@ This time, with a throve of new experience and new knowledge I want to share mor
 
 ## The Plan
 
-It's fair to day that I don't have a solid plan to follow. I do track some of the ideas in GitHub, but it's very much work in progress. But generally the plan is to start with what I've built so far and proceed until I'm happy with the results. I don't think it's the kind of work that has an end, but I'm going to build and improve a bunch of things, from look and feel to personal library and CMS plugins along the way; we'll add comments to blog posts, contact forms, and a bunch of serverless functions. I plan to livestream whenever I can with the goal of streaming whenever I work on this project.
+It's fair to day that I don't have a solid plan to follow. I do track some of the ideas on [GitHub](http://github.com/rosnovsky/sanity-gatsby-blog/projects/1), but it's very much work in progress. But generally the plan is to start with what I've built so far and proceed until I'm happy with the results. I don't think it's the kind of work that has an end, but I'm going to build and improve a bunch of things, from look and feel to personal library and CMS plugins along the way; we'll add comments to blog posts, contact forms, and a bunch of serverless functions. I plan to livestream whenever I can with the goal of streaming whenever I work on this project.
 
 ## Progress
 
-So far I've bootstrapped a Gatsby website with Sanity as a CMS hosted on Netlify. Santy actually warrants a whole separate blog post: I really dig it and enjoy it enough to build a plugin :) I use Tailwind for styling, Auth0 for identity and user management, and will be using Mux for live streaming on the website and Stripe for subscriptions and such. Quite a few things to learn and implement!
+So far I've bootstrapped a [Gatsby](https://gatsbyjs.com) website with [Sanity](https://sanity.io) as a CMS hosted on [Netlify](https://netlify.com). Santy actually warrants a whole separate blog post: I really dig it and enjoy it enough to build a [plugin](https://github.com/rosnovsky/sanity-plugin-autocomplete-tags) :) I use [Tailwind](https://tailwindcss.com) for styling, [Auth0](https://auth0.com) for identity and user management, and will be using [Mux](https://mux.com) for live streaming on the website and [Stripe](https://stripe.com) for subscriptions and such. Quite a few things to learn and implement!
 
 ## Next Steps
 

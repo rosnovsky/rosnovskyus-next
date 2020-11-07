@@ -12,7 +12,7 @@ ogImage:
 
 So, I guess it's a series now. In our last installment, we walked through the reason behind the project and my vague ideas about how to go about it.
 
-[​Original Post](https://rosnovsky.us/blog/2020/05/19/todoist-smart-reschedule/)
+[​Original Post](/posts/todoist-smart-reschedule)
 
 ​Now, I've been tinkering with the project for a little bit and want to share some of my observations and where things stand at the moment.
 
