@@ -1,0 +1,50 @@
+---
+title: 'Smart Reschedule: TypeScript?'
+excerpt: 'A quick status update, and how I got distracted by TypeScript ♥️'
+coverImage: '/assets/blog/images/smart-reschedule-typescript/cover.jpg'
+date: '2020-10-13T05:35:07.322Z'
+author:
+  name: Art Rosnovsky
+  picture: '/assets/blog/authors/art.jpg'
+ogImage:
+  url: '/assets/blog/images/smart-reschedule-typescript/cover.jpg'
+---
+
+So, I guess it's a series now. In our last installment, we walked through the reason behind the project and my vague ideas about how to go about it.
+
+[​Original Post](https://rosnovsky.us/blog/2020/05/19/todoist-smart-reschedule/)
+
+​Now, I've been tinkering with the project for a little bit and want to share some of my observations and where things stand at the moment.
+
+Not much has changed in how I think I will approach task rescheduling. However, I tweaked the parameters a bit. Let me recap:
+
+- Task age in days multiplied by -(Task priority) = Reschedule Score: a five-day old task with a no priority (Task priority:4) gets a score of -20. A two-day old task with top priority (1) will get a score of -2.
+- Tasks are divided into two groups: overdue and future. Tasks within each group are sorted descending by Reschedule Score: a task with the score of -2 will be ranked higher than a task with a score of -20. I bet there's a more elegant solution, but for now this will do.
+- I removed the number of times the task had already been rescheduled before: it's evident to me now that this datapoint is not relevant: if a task has been rescheduled 20 times, it doesn't add anything to its importance (likely, the other way around). For now, I removed it from the equation.
+- Extra data: I decided to also fetch labels and projects from Todoist. I don't know yet how I'm going to use it exactly (other than showing what task belongs to what project/label). I also decided to fetch my overall Todoist stats (completed tasks, Karma and so on), so that if I get to creating a UI, I have all the data I want to showcase.
+
+## Next steps
+
+Next, I need to figure out how to go about, well, rescheduling tasks. As of this moment, the plan is this:
+
+- Figure out a good way to grade future days based on how many tasks they have and how important these tasks are. Maybe, priority multiplied by number of tasks? I need to figure out a way to reverse priority so that top priority task weighs more than low priority. A day with 3 medium priority tasks and 2 top priority tasks will then have a day score of 12. I can set a maximum capacity for a given day of 15 points, so for such day I'll only be able to add one top priority task or 1 medium priority and 1 low priority, or 3 low priority tasks. Not sure it's smart enough, though 🤔
+- Figure out the actual rescheduling process. I mean, literally, how do I reschedule tasks using Todoist API? Do I need to specify due time and date or is the date enough? Can I reschedule tasks relatively, as in "reschedule this 5 days in future if task score fits day's capacity"?
+- Do I need a backup? Should I store fetched tasks somewhere just in case?
+- Is there any existing "science" behind rescheduling stuff?
+
+## TypeScript
+
+I get distracted by shiny new objects really easily. Last night, I came across two fairly old talks on TypeScript:
+
+This talk is so old that arrow functions, classes and string literals had already made its way into JavaScript!In this one, TypeScript 3.8 is announced. We are on 4.0 already!
+
+As a result, I've completely rewritten my little serverless fetchTasks.js in TypeScript. It's a fantastic low-pressure introduction. Since TypeScript compiles to plain JavaScript, it remains a valid serverless lambda function, while I get to take full advantage of TypeScript: types, amazing IDE support, suggestions and so on. And since I'm at a ground level of this project, it was really easy to figure out what types and interfaces I need and where I can get the most benefits moving forward.
+
+Anyway, stick around if you want to see me stumble around and make this thing happen after all!
+
+## Bonus
+
+Here's a sneak peak of what my current function returns. Future tasks are also included. All of this is also sorted by rescheduleScore and importanceScore for past due and future tasks respectively. As you can see, there's an interesting bug/feature: tasks that are due tomorrow (within a few hours from now) are considered overdue (which is a bug), but receive the highest rescheduleScore (which is a feature). I will fix this later by making sure that tasks with zero days left are not considered overdue 🤷‍♂️
+
+![Screenshot](/assets/blog/images/smart-reschedule-typescript/screenshot.jpg)
+caption

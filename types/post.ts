@@ -11,6 +11,7 @@ type PostType = {
     url: string
   }
   content: string
+  preview: boolean
 }
 
 export default PostType

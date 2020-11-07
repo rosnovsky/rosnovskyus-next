@@ -29,5 +29,29 @@ module.exports = {
         medium: '0 8px 30px rgba(0, 0, 0, 0.12)',
       },
     },
+    typography: {
+      default: {
+        css: {
+          a: {
+            color: '#CF7D32',
+            fontWeight: 'bold',
+            '&:hover': {
+              color: '#a34604'
+            }
+          }
+        }
+      }
+    }
   },
+  plugins: [
+    require('@tailwindcss/ui'),
+    require('@tailwindcss/custom-forms'),
+    require('@tailwindcss/typography')
+  ],
+  future: {
+    purgeLayersByDefault: true,
+    defaultLineHeights: true,
+    standardFontWeights: true,
+    // removeDeprecatedGapUtilities: true
+  }
 }
