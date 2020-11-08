@@ -25,12 +25,11 @@ const Index = ({ allPosts }: Props) => {
             as="fetch"
             crossOrigin="anonymous"
           />
-          <link
-            rel="preload"
-            href="https://llama.rosnovsky.us"
-            as="fetch"
-            crossOrigin="anonymous"
-          />
+          <script
+            src="https://llama.rosnovsky.us/script.js"
+            data-site="UHVHKTPD"
+            defer
+          ></script>
         </Head>
         <Container>
           <Intro />
