@@ -25,7 +25,7 @@ const config = {
     **/
   dataset: 'production',
   projectId: "n3o7a5dl",
-  useCdn: process.env.NODE_ENV === 'production',
+  useCdn: true,
   /**
     * Set useCdn to `false` if your application require the freshest possible
     * data always (potentially slightly slower and a bit more expensive).

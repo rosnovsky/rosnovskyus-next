@@ -7,7 +7,8 @@ const MainImage = ({ title, src, slug, preview }: any) => {
   const image = (
     <Image
       src={
-        urlFor(src.asset).maxWidth(1860).maxHeight(1000).url() || 'default.jpg'
+        urlFor(src.asset).format('webp').maxWidth(1860).maxHeight(1000).url() ||
+        'default.jpg'
       }
       width={preview ? 840 : 1860}
       height={preview ? 344 : 1000}

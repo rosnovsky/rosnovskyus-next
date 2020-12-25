@@ -38,7 +38,6 @@ export const Figure = (props: any) => {
               .width(900)
               .height(900)
               .format('jpg')
-              .quality(80)
               .fit('crop')
               .url() || 'default.jpg'
           }
@@ -46,9 +45,8 @@ export const Figure = (props: any) => {
           objectFit="cover"
           objectPosition="50% 50%"
           layout="responsive"
-          quality={80}
-          width={900}
-          height={900}
+          width={760}
+          height={760}
           alt={props.title}
         />
         <figcaption>{props.alt}</figcaption>
