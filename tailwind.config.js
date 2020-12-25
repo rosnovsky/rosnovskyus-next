@@ -36,22 +36,16 @@ module.exports = {
             color: '#CF7D32',
             fontWeight: 'bold',
             '&:hover': {
-              color: '#a34604'
-            }
-          }
-        }
-      }
-    }
+              color: '#a34604',
+            },
+          },
+        },
+      },
+    },
   },
   plugins: [
     require('@tailwindcss/ui'),
     require('@tailwindcss/custom-forms'),
-    require('@tailwindcss/typography')
+    require('@tailwindcss/typography'),
   ],
-  future: {
-    purgeLayersByDefault: true,
-    defaultLineHeights: true,
-    standardFontWeights: true,
-    // removeDeprecatedGapUtilities: true
-  }
 }

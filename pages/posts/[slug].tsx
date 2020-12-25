@@ -5,23 +5,32 @@ import PostBody from '../../components/post-body'
 import Header from '../../components/header'
 import PostHeader from '../../components/post-header'
 import Layout from '../../components/layout'
-import { getPostBySlug, getAllPosts } from '../../lib/api'
 import PostTitle from '../../components/post-title'
 import Head from 'next/head'
-import markdownToHtml from '../../lib/markdownToHtml'
 import PostType from '../../types/post'
+import { groq } from 'next-sanity'
+import { getClient, usePreviewSubscription } from '../../lib/sanity'
 
 type Props = {
-  post: PostType
-  morePosts: PostType[]
+  data: {
+    post: PostType
+  }
   preview?: boolean
 }
 
-const Post = ({ post, morePosts, preview }: Props) => {
+const Post = ({ data, preview }: Props) => {
+  const { title, mainImage, date, body, slug, author, excerpt } = data.post
   const router = useRouter()
-  if (!router.isFallback && !post?.slug) {
+  if (!router.isFallback && !data?.post.slug) {
     return <ErrorPage statusCode={404} />
   }
+
+  const { data: post } = usePreviewSubscription(postQuery, {
+    params: { slug: slug },
+    initialData: data,
+    enabled: preview,
+  })
+
   return (
     <Layout preview={preview}>
       <Container>
@@ -32,18 +41,17 @@ const Post = ({ post, morePosts, preview }: Props) => {
           <>
             <article className="mb-32">
               <Head>
-                <title>
-                  {post.title} | Rosnovsky Park
-                </title>
-                <meta property="og:image" content={post.ogImage.url} />
+                <title>{title} | Rosnovsky Park</title>
+                {/* <meta property="og:image" content={post.ogImage.url} /> */}
               </Head>
               <PostHeader
-                title={post.title}
-                coverImage={post.coverImage}
-                date={post.date}
-                author={post.author}
+                title={title}
+                mainImage={mainImage}
+                date={date}
+                author={author}
+                excerpt={excerpt}
               />
-              <PostBody content={post.content} />
+              <PostBody content={body} />
             </article>
           </>
         )}
@@ -55,44 +63,50 @@ const Post = ({ post, morePosts, preview }: Props) => {
 export default Post
 
 type Params = {
-  params: {
-    slug: string
-  }
+  slug: string
 }
 
-export async function getStaticProps({ params }: Params) {
-  const post = getPostBySlug(params.slug, [
-    'title',
-    'date',
-    'slug',
-    'author',
-    'content',
-    'ogImage',
-    'coverImage',
-  ])
-  const content = await markdownToHtml(post.content || '')
+const postQuery = groq`
+  *[_type == "post" && slug.current == $slug][0] {
+    _id,
+    title,
+    body,
+    excerpt,
+    mainImage,
+    categories[]->{
+      _id,
+      title
+    },
+    "slug": slug.current
+  }
+`
+
+export async function getStaticProps({
+  params,
+  preview = false,
+}: {
+  params: Record<string, string>
+  preview: boolean
+}) {
+  const post = await getClient(preview).fetch(postQuery, {
+    slug: params.slug,
+  })
 
   return {
     props: {
-      post: {
-        ...post,
-        content,
-      },
+      preview,
+      data: { post },
     },
   }
 }
 
 export async function getStaticPaths() {
-  const posts = getAllPosts(['slug'])
+  const paths = await getClient(false).fetch(
+    groq`*[_type == "post" && defined(slug.current)][].slug.current`
+  )
 
   return {
-    paths: posts.map((posts) => {
-      return {
-        params: {
-          slug: posts.slug,
-        },
-      }
-    }),
+    paths: paths.map((slug: string) => ({ params: { slug } })),
     fallback: false,
   }
 }

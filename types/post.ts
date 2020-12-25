@@ -4,13 +4,13 @@ type PostType = {
   slug: string
   title: string
   date: string
-  coverImage: string
+  mainImage: string
   author: Author
-  excerpt: string
+  excerpt: any
   ogImage: {
     url: string
   }
-  content: string
+  body: any
   preview: boolean
 }
 

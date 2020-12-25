@@ -1,12 +1,13 @@
 import Avatar from './avatar'
 import DateFormatter from './date-formatter'
-import CoverImage from './cover-image'
+import MainImage from './cover-image'
 import Link from 'next/link'
 import Author from '../types/author'
+import { usePreviewSubscription, urlFor, PortableText } from '../lib/sanity'
 
 type Props = {
   title: string
-  coverImage: string
+  mainImage: string
   date: string
   excerpt: string
   author: Author
@@ -14,30 +15,23 @@ type Props = {
   preview: boolean
 }
 
-const PostPreview = ({
-  title,
-  coverImage,
-  date,
-  excerpt,
-  author,
-  slug,
-  preview
-}: Props) => {
+const PostPreview = ({ title, mainImage, date, excerpt, slug }: Props) => {
   return (
-    <div>
+    <div className="mx-5 my-10">
       <div className="mb-5">
-        <CoverImage preview={preview} slug={slug} title={title} src={coverImage} />
+        <MainImage preview={false} slug={slug} title={title} src={mainImage} />
       </div>
       <h3 className="text-3xl mb-3 leading-snug">
         <Link as={`/posts/${slug}`} href="/posts/[slug]">
-          <a className="hover:underline">{title}</a>
+          <a className="hover:underline text-3xl font-semibold">{title}</a>
         </Link>
       </h3>
       <div className="text-lg mb-4">
         <DateFormatter dateString={date} />
       </div>
-      <p className="text-lg leading-relaxed mb-4">{excerpt}</p>
-      {/* <Avatar name={author.name} picture={author.picture} /> */}
+      <p className="text-lg leading-relaxed mb-4">
+        <PortableText blocks={excerpt} />
+      </p>
     </div>
   )
 }

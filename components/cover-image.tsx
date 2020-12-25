@@ -1,24 +1,20 @@
 import cn from 'classnames'
 import Link from 'next/link'
 import Image from 'next/image'
+import { usePreviewSubscription, urlFor, PortableText } from '../lib/sanity'
 
-type Props = {
-  title: string
-  src: string
-  slug?: string
-  preview: boolean
-}
-
-const CoverImage = ({ title, src, slug, preview }: Props) => {
+const MainImage = ({ title, src, slug, preview }: any) => {
   const image = (
     <Image
-      src={src}
-      width={preview ? 560 :1240}
-      height={preview ? 215 : 480}
+      src={
+        urlFor(src.asset).maxWidth(1860).maxHeight(1000).url() || 'default.jpg'
+      }
+      width={preview ? 840 : 1860}
+      height={preview ? 344 : 1000}
       alt={`Cover Image for ${title}`}
-      layout={'intrinsic'}
-      className={cn('shadow-small', {
-        'hover:shadow-medium transition-shadow duration-200': slug,
+      layout={'responsive'}
+      className={cn('object-cover shadow-small', {
+        'hover:shadow-medium object-cover transition-shadow duration-200': slug,
       })}
     />
   )
@@ -35,4 +31,4 @@ const CoverImage = ({ title, src, slug, preview }: Props) => {
   )
 }
 
-export default CoverImage
+export default MainImage
