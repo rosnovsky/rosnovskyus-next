@@ -19,8 +19,17 @@ type Props = {
 }
 
 const Post = ({ data, preview }: Props) => {
-  const { title, mainImage, date, body, slug, author, excerpt } = data.post
+  const {
+    title,
+    mainImage,
+    publishedAt,
+    body,
+    slug,
+    author,
+    excerpt,
+  } = data.post
   const router = useRouter()
+  console.log(data)
   if (!router.isFallback && !data?.post.slug) {
     return <ErrorPage statusCode={404} />
   }
@@ -47,7 +56,7 @@ const Post = ({ data, preview }: Props) => {
               <PostHeader
                 title={title}
                 mainImage={mainImage}
-                date={date}
+                date={publishedAt}
                 author={author}
                 excerpt={excerpt}
               />
@@ -62,22 +71,18 @@ const Post = ({ data, preview }: Props) => {
 
 export default Post
 
-type Params = {
-  slug: string
-}
-
 const postQuery = groq`
   *[_type == "post" && slug.current == $slug][0] {
-    _id,
-    title,
-    body,
-    excerpt,
-    mainImage,
-    categories[]->{
-      _id,
-      title
-    },
-    "slug": slug.current
+    ...,
+    body[]{
+      ...,
+      markDefs[]{
+        ...,
+        _type == "internalLink" => {
+          "slug": @.reference->slug
+        }
+      }
+    }
   }
 `
 
@@ -85,7 +90,7 @@ export async function getStaticProps({
   params,
   preview = false,
 }: {
-  params: Record<string, string>
+  params: any
   preview: boolean
 }) {
   const post = await getClient(preview).fetch(postQuery, {
@@ -102,11 +107,15 @@ export async function getStaticProps({
 
 export async function getStaticPaths() {
   const paths = await getClient(false).fetch(
-    groq`*[_type == "post" && defined(slug.current)][].slug.current`
+    groq`*[_type == "post" && defined(slug.current)][]{ slug, publishedAt}`
   )
 
   return {
-    paths: paths.map((slug: string) => ({ params: { slug } })),
+    paths: paths.map((slug) => {
+      return {
+        params: { slug: `${slug.slug.current}` },
+      }
+    }),
     fallback: false,
   }
 }

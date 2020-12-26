@@ -4,52 +4,24 @@ import Link from 'next/link'
 import ReactPlayer from 'react-player/file'
 import Youtube from 'react-player/youtube'
 import Figure from './figure'
+import { urlFor } from './sanity'
 import Code from './code'
-import { getClient } from './sanity'
+import { getClient, internalLink } from './sanity'
+import { groq } from 'next-sanity'
 import DateFormatter from '../components/date-formatter'
 import dynamic from 'next/dynamic'
-import { groq } from 'next-sanity'
-
-const InternalLinkQuery = groq`
-  *[_type == "post" && _id == $ref]{
-    "slug": slug.current
-  }
-`
 
 const ReactTinyLink = dynamic(
   () => import('react-tiny-link').then((mod) => mod.ReactTinyLink),
   { ssr: false }
 )
 
-export function getBlogUrl(date: string, slug: Record<string, string>) {
-  return ``
-}
-
 const serializers = {
   marks: {
-    internalLink: ({ mark, children }: { mark: any; children: any }) => {
-      const [slug, setSlug] = useState('/')
-
-      useEffect(async () => {
-        const fetchSlug = async () => {
-          const slug = await getClient()
-            .fetch(InternalLinkQuery, {
-              ref: mark.reference._ref,
-            })
-            .then((result) => {
-              console.log(result)
-              const { slug } = result[0]
-              const href = `${slug}`
-              setSlug(href)
-              return href
-            })
-          return slug
-        }
-        const data = await fetchSlug()
-        return data
-      }, [])
-
-      return <Link href={slug}>{children[0]}</Link>
+    internalLink: ({ mark, children }) => {
+      const { slug = {} } = mark
+      const href = `/blog/${slug.current}`
+      return <Link href={href}>{children[0]}</Link>
     },
     link: ({ mark, children }: { mark: any; children: any }) => {
       const { blank, href } = mark

@@ -22,7 +22,7 @@ const PostPreview = ({ title, mainImage, date, excerpt, slug }: Props) => {
         <MainImage preview={false} slug={slug} title={title} src={mainImage} />
       </div>
       <h3 className="text-3xl mb-3 leading-snug">
-        <Link as={`/posts/${slug}`} href="/posts/[slug]">
+        <Link as={`/blog/${slug}`} href="/blog/[slug]">
           <a className="hover:underline text-3xl font-semibold">{title}</a>
         </Link>
       </h3>

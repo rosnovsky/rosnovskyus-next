@@ -14,16 +14,25 @@ const postQuery = groq`
     title,
     body,
     excerpt,
+    featured,
+    publishedAt,
     mainImage,
     categories[]->{
       _id,
       title
     },
     "slug": slug.current
-  }
+  } | order(publishedAt desc)
 `
 
 const Index = ({ data }: any) => {
+  const featuredPost = data.posts.filter((post: any) => post.featured === true)
+
+  const randomFeaturedPostIndex = Math.floor(
+    Math.random() * featuredPost.length
+  )
+
+  const randomFeaturedPost = featuredPost[randomFeaturedPostIndex]
   return (
     <>
       <Layout>
@@ -45,16 +54,15 @@ const Index = ({ data }: any) => {
         </Head>
         <Container>
           <Intro />
-          {/* {heroPost && (
+          {featuredPost && (
             <HeroPost
-              title={heroPost.title}
-              coverImage={heroPost.coverImage}
-              date={heroPost.date}
-              author={heroPost.author}
-              slug={heroPost.slug}
-              excerpt={heroPost.excerpt}
+              title={randomFeaturedPost.title}
+              mainImage={randomFeaturedPost.mainImage}
+              date={randomFeaturedPost.publishedAt}
+              slug={randomFeaturedPost.slug}
+              excerpt={randomFeaturedPost.excerpt}
             />
-          )} */}
+          )}
           <MoreStories posts={data.posts} />
         </Container>
       </Layout>

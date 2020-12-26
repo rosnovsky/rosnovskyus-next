@@ -7,12 +7,6 @@ import {
   createCurrentUserHook,
 } from 'next-sanity'
 import serializers from "./serializers"
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import ReactPlayer from 'react-player/file';
-import Youtube from 'react-player/youtube';
-import Figure from './code';
-import Code from './code';
 
 
 const config = {
@@ -62,3 +56,13 @@ export const getClient = (usePreview: any) => (usePreview ? previewClient : sani
 
 // Helper function for using the current logged in user account
 export const useCurrentUser = createCurrentUserHook(config)
+
+export const internalLink = async (mark: any, children: any) => {
+  const InternalLinkQuery = groq`
+  *[_type == "post" && _id == $ref]{
+    "slug": slug.current
+  }
+`
+  const slug = await getClient(false).fetch(InternalLinkQuery, { ref: mark.reference._ref }).then(slug => slug)
+  return slug
+}

@@ -1,27 +1,35 @@
 import Image from 'next/image'
+import { isMainThread } from 'worker_threads'
 import { urlFor } from './sanity'
 
 export const Figure = (props: any) => {
   const { asset } = props.node
+  const demensions = asset._ref.split('-')[2]
+  const sizes = {
+    width: demensions.split('x')[0],
+    height: demensions.split('x')[1],
+    orientation:
+      demensions.split('x')[0] / demensions.split('x')[1] > 1
+        ? 'landscape'
+        : 'portrait',
+  }
+
+  const gif = asset._ref.split('-')[3] === 'gif'
 
   if (!asset) {
     return null
   }
 
-  if (asset.extension === 'gif') {
+  if (gif) {
     return (
       <figure>
-        <Image
+        <img
           src={
-            urlFor(asset).maxWidth(1000).maxHeight(1000).url() || 'default.jpg'
+            urlFor(asset).minWidth(760).height(sizes.height).url() ||
+            'https://rosnovsky.us/favicon.png'
           }
           alt={props.alt}
           loading="lazy"
-          width={900}
-          height={900}
-          objectFit="cover"
-          objectPosition="50% 50%"
-          layout="responsive"
           className="w-full"
         />
         <figcaption>{props.alt}</figcaption>
@@ -30,24 +38,26 @@ export const Figure = (props: any) => {
   }
 
   return (
-    <div className="container max-h-120">
-      <figure className="">
+    <div className="w-full">
+      <figure>
         <Image
           src={
             urlFor(asset)
-              .width(900)
-              .height(900)
+              .width(760)
+              .height(Math.floor((sizes.height * 760) / sizes.width))
               .format('jpg')
-              .fit('crop')
-              .url() || 'default.jpg'
+              .crop('focalpoint')
+              .url() || 'https://rosnovsky.us/favicon.png'
           }
           loading="lazy"
+          width={760}
+          height={Math.floor((sizes.height * 760) / sizes.width)}
+          quality={80}
           objectFit="cover"
           objectPosition="50% 50%"
           layout="responsive"
-          width={760}
-          height={760}
           alt={props.title}
+          className="w-full"
         />
         <figcaption>{props.alt}</figcaption>
       </figure>
