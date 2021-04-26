@@ -14,7 +14,7 @@
     "classnames": "2.2.6",
     "date-fns": "2.16.1",
     "fathom-client": "3.0.0",
-    "gray-matter": "4.0.2",
+    "gray-matter": "4.0.3",
     "next": "10.0.4",
     "next-sanity": "^0.1.8",
     "postcss": "^8.2.1",
