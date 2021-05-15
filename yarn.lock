@@ -4431,10 +4431,10 @@ react-syntax-highlighter@^15.4.3:
     prismjs "^1.22.0"
     refractor "^3.2.0"
 
-react-tiny-link@^3.6.0:
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/react-tiny-link/-/react-tiny-link-3.6.0.tgz#4b2d1bc36a48fbc5d5af2eed83034e05472b628a"
-  integrity sha512-uixE/1+IDKVcobnjZQpMafkBT/JQjdgt6kvBZ8AG4uSZ46ECi2HFT5R/TLokQoBJipU4dDs4Mph2AN4BGQMvkQ==
+react-tiny-link@3.6.1:
+  version "3.6.1"
+  resolved "https://registry.yarnpkg.com/react-tiny-link/-/react-tiny-link-3.6.1.tgz#69da07660e16e2498c42458b09b02d4c41e6683c"
+  integrity sha512-spQghU5GqBWsLE8rKOTYo/h6MNoZJn8Gqs6jpeQuo/eq2bALkeOke2FfSswVOhGN8z8riDY+TqaJ2eaoNKtrAw==
 
 react@17.0.1:
   version "17.0.1"
